@@ -3,6 +3,7 @@ import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
 import { Button, Grid } from "@mui/material"
 import api from "../api/auth"
+import ComunnityCard from "../components/comunnityCard"
 
 export default function BasicTextFields() {
   const [fullName, setFullName] = React.useState("")
@@ -36,7 +37,7 @@ export default function BasicTextFields() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Grid>
-
+        <ComunnityCard/>
         <Grid item xs={12}>
           <TextField
             label="Password"

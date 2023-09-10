@@ -9,27 +9,27 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react"
+    // "react"
   ],
   "rules": {
-    "indent": [
-      "error",
-      2
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "double"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ],
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "consistent-return": "off"
+    // "indent": [
+    //   "error",
+    //   2
+    // ],
+    // "linebreak-style": [
+    //   "error",
+    //   "unix"
+    // ],
+    // "quotes": [
+    //   "error",
+    //   "double"
+    // ],
+    // "semi": [
+    //   "error",
+    //   "never"
+    // ],
+    // "react/react-in-jsx-scope": "off",
+    // "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    // "consistent-return": "off"
   }
 }
