@@ -8,6 +8,8 @@ type User struct {
 	FullName  string    `json:"fullName" gorm:"column: full_name"`
 	CreatedAt time.Time `gorm:"autoCreateTime: true"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime: true"`
+
+	Communities []*Community `gorm:"many2many:communities_users"`
 }
 
 type CleanUser struct {

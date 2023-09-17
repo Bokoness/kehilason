@@ -35,7 +35,7 @@ func InitDb() {
 	log.Info("Connected to database")
 
 	// auto migrations
-	if err := db.AutoMigrate(&models.Campaign{}, &models.User{}); err != nil {
+	if err := db.AutoMigrate(&models.Community{}, &models.User{}, &models.CommunitiesUsers{}); err != nil {
 		log.Error("Failed to migrate")
 	}
 
