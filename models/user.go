@@ -9,7 +9,7 @@ type User struct {
 	CreatedAt time.Time `gorm:"autoCreateTime: true"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime: true"`
 
-	Campaigns []*Campaign `gorm:"many2many:campaigns_users"`
+	Communities []*Community `gorm:"many2many:communities_users"`
 }
 
 type CleanUser struct {

@@ -5,6 +5,6 @@ import (
 )
 
 func Setup(app *fiber.App) {
-	CampaignRoutes(app.Group("/campaigns"))
+	CommunitiesRoutes(app.Group("/communities"))
 	AuthRoutes(app.Group("/auth"))
 }
