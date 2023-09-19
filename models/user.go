@@ -3,11 +3,12 @@ package models
 import "time"
 
 type User struct {
-	Email     string    `json:"email" gorm:"primaryKey"`
-	Password  string    `json:"password"`
-	FullName  string    `json:"fullName" gorm:"column: full_name"`
-	CreatedAt time.Time `gorm:"autoCreateTime: true"`
-	UpdatedAt time.Time `gorm:"autoUpdateTime: true"`
+	Email       string    `json:"email" gorm:"primaryKey"`
+	Password    string    `json:"password"`
+	FullName    string    `json:"fullName" gorm:"column: full_name"`
+	IsSuperuser bool      `json:"isSuperuser" gorm:"is_superuser;default:false"`
+	CreatedAt   time.Time `gorm:"autoCreateTime: true"`
+	UpdatedAt   time.Time `gorm:"autoUpdateTime: true"`
 
 	Communities []*Community `gorm:"many2many:communities_users"`
 }
