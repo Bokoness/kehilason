@@ -9,7 +9,7 @@ import (
 func CommunitiesRoutes(route fiber.Router) {
 	route.Get("/:id", handlers.GetCommunity)
 	route.Get("/", handlers.GetCommunities)
-	route.Post("/", middleware.AuthMiddleware, handlers.CreateCommunity)
+	route.Post("/", middleware.SuperUserMiddleware, handlers.CreateCommunity)
 	route.Put("/:id", middleware.AuthMiddleware, handlers.UpdateCommunity)
-	route.Delete("/:id", middleware.AuthMiddleware, handlers.DeleteCommunity)
+	route.Delete("/:id", middleware.SuperUserMiddleware, handlers.DeleteCommunity)
 }
