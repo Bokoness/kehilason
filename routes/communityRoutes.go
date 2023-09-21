@@ -6,7 +6,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func CommunitiesRoutes(route fiber.Router) {
+func CommunitiesRoutes(app fiber.Router) {
+	route := app.Group("/communities")
+
 	route.Get("/:id", handlers.GetCommunity)
 	route.Get("/", handlers.GetCommunities)
 	route.Post("/", middleware.AuthMiddleware, handlers.CreateCommunity)
