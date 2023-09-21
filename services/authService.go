@@ -83,14 +83,16 @@ func GetUserFromSession(c *fiber.Ctx) (*models.User, error) {
 	sess, err := GetStore(c)
 
 	if err != nil {
-		return nil, fiber.NewError(fiber.StatusInternalServerError)
+		return nil, errors.New("cant get session store")
 	}
 
 	uInterface := sess.Get("user")
 
-	if user, ok := uInterface.(models.User); ok {
-		return &user, nil
+	user, ok := uInterface.(*models.User)
+
+	if !ok {
+		return nil, errors.New("cant fetch user from session")
 	}
 
-	return nil, fiber.NewError(fiber.StatusInternalServerError)
+	return user, nil
 }

@@ -29,6 +29,14 @@ func CreateAssignment(c *fiber.Ctx) error {
 
 	assignment.CommunityID = c.Params("communityId")
 
+	user, err := services.GetUserFromSession(c)
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError)
+	}
+
+	assignment.UserID = user.Email
+
 	return c.JSON(services.CreateAssignment(assignment))
 }
 
