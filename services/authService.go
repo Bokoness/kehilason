@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/bokoness/lashon/models"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gofiber/fiber/v2"
 	"os"
 	"time"
 )
@@ -60,4 +61,36 @@ func GetUserByJWT(hash string) (*models.User, error) {
 	user := GetUser(email)
 
 	return &user, nil
+}
+
+func SaveUserInSession(c *fiber.Ctx, user models.User) error {
+	sess, err := GetStore(c)
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError)
+	}
+
+	sess.Set("user", user)
+
+	if err = sess.Save(); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError)
+	}
+
+	return nil
+}
+
+func GetUserFromSession(c *fiber.Ctx) (*models.User, error) {
+	sess, err := GetStore(c)
+
+	if err != nil {
+		return nil, fiber.NewError(fiber.StatusInternalServerError)
+	}
+
+	uInterface := sess.Get("user")
+
+	if user, ok := uInterface.(models.User); ok {
+		return &user, nil
+	}
+
+	return nil, fiber.NewError(fiber.StatusInternalServerError)
 }

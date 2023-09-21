@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"github.com/bokoness/lashon/services"
 	"github.com/gofiber/fiber/v2"
 )
@@ -15,22 +14,14 @@ func AuthMiddleware(c *fiber.Ctx) error {
 
 	user, err := services.GetUserByJWT(cookie)
 
-	// insert user to session
-	sess, err := services.GetStore(c)
+	if err != nil {
+		return fiber.NewError(fiber.StatusUnauthorized)
+	}
+
+	err = services.SaveUserInSession(c, *user)
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError)
-	}
-
-	sess.Set("user", user)
-
-	if err = sess.Save(); err != nil {
-		fmt.Printf("this is the error %s", err)
-		return fiber.NewError(fiber.StatusInternalServerError)
-	}
-
-	if err != nil {
-		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
 	return c.Next()
