@@ -9,7 +9,7 @@ import (
 )
 
 func RegisterUser(c *fiber.Ctx) error {
-	var body dto.CreateUser
+	var body models.User
 
 	if err := services.ValidateRequestBody(c, new(dto.CreateUser), &body); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
