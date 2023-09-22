@@ -3,6 +3,7 @@ package services
 import (
 	"errors"
 	"github.com/bokoness/lashon/database"
+	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -15,16 +16,20 @@ func GetUser(email string) models.User {
 	return user
 }
 
-func CreateUser(data models.User) (*models.User, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
+func CreateUser(dto dto.CreateUser) (*models.User, error) {
+	var result models.User
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(dto.Password), bcrypt.DefaultCost)
 
 	if err != nil {
 		return nil, errors.New("password hashing failed")
 	}
 
-	data.Password = string(hash)
+	result.Email = dto.Email
+	result.Password = string(hash)
+	result.FullName = dto.FullName
 
-	database.DB.Create(&data)
+	database.DB.Create(&result)
 
-	return &data, nil
+	return &result, nil
 }
