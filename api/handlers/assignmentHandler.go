@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
 	"github.com/gofiber/fiber/v2"
@@ -21,13 +22,13 @@ func GetAssignment(c *fiber.Ctx) error {
 }
 
 func CreateAssignment(c *fiber.Ctx) error {
-	var assignment models.Assignment
+	var body models.Assignment
 
-	if err := c.BodyParser(&assignment); err != nil {
+	if err := services.ValidateRequestBody(c, new(dto.CreateUpdateAssignment), &body); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	assignment.CommunityID = c.Params("communityId")
+	body.CommunityID = c.Params("communityId")
 
 	user, err := services.GetUserFromSession(c)
 
@@ -35,9 +36,9 @@ func CreateAssignment(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError)
 	}
 
-	assignment.UserID = user.Email
+	body.UserID = user.Email
 
-	return c.JSON(services.CreateAssignment(assignment))
+	return c.JSON(services.CreateAssignment(body))
 }
 
 func UpdateAssignment(c *fiber.Ctx) error {
@@ -47,8 +48,7 @@ func UpdateAssignment(c *fiber.Ctx) error {
 	}
 
 	var body models.Assignment
-
-	if err := c.BodyParser(&body); err != nil {
+	if err := services.ValidateRequestBody(c, new(dto.CreateUpdateAssignment), &body); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 

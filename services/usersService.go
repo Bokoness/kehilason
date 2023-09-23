@@ -16,6 +16,7 @@ func GetUser(email string) models.User {
 }
 
 func CreateUser(data models.User) (*models.User, error) {
+
 	hash, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
 
 	if err != nil {

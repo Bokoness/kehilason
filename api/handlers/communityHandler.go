@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
 	"github.com/gofiber/fiber/v2"
@@ -17,7 +18,7 @@ func GetCommunity(c *fiber.Ctx) error {
 func CreateCommunity(c *fiber.Ctx) error {
 	var body models.Community
 
-	if err := c.BodyParser(&body); err != nil {
+	if err := services.ValidateRequestBody(c, new(dto.CreateCommunity), &body); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
@@ -31,7 +32,7 @@ func CreateCommunity(c *fiber.Ctx) error {
 func UpdateCommunity(c *fiber.Ctx) error {
 	var body models.Community
 
-	if err := c.BodyParser(&body); err != nil {
+	if err := services.ValidateRequestBody(c, new(dto.UpdateCommunity), &body); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 

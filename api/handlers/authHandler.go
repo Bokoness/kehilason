@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
 	"github.com/gofiber/fiber/v2"
@@ -10,7 +11,7 @@ import (
 func RegisterUser(c *fiber.Ctx) error {
 	var body models.User
 
-	if err := c.BodyParser(&body); err != nil {
+	if err := services.ValidateRequestBody(c, new(dto.CreateUser), &body); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
@@ -30,7 +31,7 @@ func RegisterUser(c *fiber.Ctx) error {
 func LoginUser(c *fiber.Ctx) error {
 	var body models.User
 
-	if err := c.BodyParser(&body); err != nil {
+	if err := services.ValidateRequestBody(c, new(dto.LoginUser), &body); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
