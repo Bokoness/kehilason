@@ -14,7 +14,7 @@ type Community struct {
 }
 
 type CommunitiesUsers struct {
-	CommunityID uint      `gorm:"primaryKey"`
+	CommunityID string    `gorm:"primaryKey"`
 	UserID      uint      `gorm:"primaryKey"`
 	Role        int       `gorm:"default: 2"`
 	CreatedAt   time.Time `gorm:"autoCreateTime: true"`
