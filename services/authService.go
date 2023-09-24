@@ -30,7 +30,7 @@ func GenerateAuthJWT(uid uint) (string, error) {
 	return tokenString, nil
 }
 
-func UnHashAuthJWT(hash string) (interface{}, error) {
+func UnHashAuthJWT(hash string) (uint, error) {
 	token, err := jwt.Parse(hash, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -39,24 +39,28 @@ func UnHashAuthJWT(hash string) (interface{}, error) {
 	})
 
 	if err != nil {
-		return nil, errors.New("token not valid")
+		return 0, errors.New("token is not valid")
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		return claims["user"], nil
+		userFloat, ok := claims["user"].(float64)
+		if !ok {
+			return 0, errors.New("user claim is not a float64")
+		}
+
+		userId := uint(userFloat)
+		return userId, nil
 	} else {
-		return nil, errors.New("token is not valid")
+		return 0, errors.New("token is not valid")
 	}
 }
 
 func GetUserByJWT(hash string) (*models.User, error) {
-	result, err := UnHashAuthJWT(hash)
+	uid, err := UnHashAuthJWT(hash)
 
 	if err != nil {
 		return nil, errors.New("token is not valid")
 	}
-
-	uid, _ := result.(uint)
 
 	user := GetUser(uid)
 
