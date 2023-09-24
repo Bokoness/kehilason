@@ -14,4 +14,5 @@ func CommunitiesRoutes(app fiber.Router) {
 	route.Post("/", middleware.AuthMiddleware, handlers.CreateCommunity)
 	route.Put("/:id", middleware.AuthMiddleware, handlers.UpdateCommunity)
 	route.Delete("/:id", middleware.AuthMiddleware, handlers.DeleteCommunity)
+	route.Post("/:id/register-user", middleware.AuthMiddleware, handlers.RegisterUserToCommunity)
 }

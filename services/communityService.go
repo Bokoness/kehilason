@@ -43,3 +43,8 @@ func DeleteCommunity(id string) {
 	record := models.Community{ID: id}
 	database.DB.Unscoped().Delete(&record)
 }
+
+func RegisterUserToCommunity(userId uint, communityId string) {
+	record := models.CommunitiesUsers{CommunityID: communityId, UserID: userId}
+	database.DB.Save(&record)
+}

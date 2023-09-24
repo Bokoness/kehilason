@@ -44,3 +44,14 @@ func DeleteCommunity(c *fiber.Ctx) error {
 
 	return c.SendStatus(fiber.StatusOK)
 }
+
+func RegisterUserToCommunity(c *fiber.Ctx) error {
+	user, err := services.GetUserFromSession(c)
+	if err != nil {
+		return fiber.NewError(fiber.StatusUnauthorized)
+	}
+
+	services.RegisterUserToCommunity(user.ID, c.Params("id"))
+
+	return c.SendStatus(fiber.StatusOK)
+}
