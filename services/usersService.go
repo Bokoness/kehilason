@@ -7,7 +7,15 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func GetUser(email string) models.User {
+func GetUser(uid uint) models.User {
+	var user models.User
+
+	database.DB.First(&user, uid)
+
+	return user
+}
+
+func GetUserByEmail(email string) models.User {
 	var user models.User
 
 	database.DB.First(&user, "email = ?", email)

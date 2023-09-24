@@ -15,7 +15,7 @@ func RegisterUser(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	if found := services.GetUser(body.Email); found.Email != "" {
+	if found := services.GetUserByEmail(body.Email); found.Email != "" {
 		return fiber.NewError(fiber.StatusBadRequest, "email already exists")
 	}
 
@@ -35,7 +35,7 @@ func LoginUser(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	found := services.GetUser(body.Email)
+	found := services.GetUserByEmail(body.Email)
 
 	if found.Email == "" {
 		return fiber.NewError(fiber.StatusUnauthorized)
@@ -47,7 +47,7 @@ func LoginUser(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusUnauthorized)
 	}
 
-	jwt, err := services.GenerateAuthJWT(found.Email)
+	jwt, err := services.GenerateAuthJWT(found.ID)
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError)

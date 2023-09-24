@@ -12,13 +12,13 @@ import (
 
 var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
-func GenerateAuthJWT(email string) (string, error) {
+func GenerateAuthJWT(uid uint) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
 
 	claims["authorized"] = true
-	claims["user"] = email
+	claims["user"] = uid
 	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
 
 	tokenString, err := token.SignedString(jwtSecret)
@@ -56,9 +56,9 @@ func GetUserByJWT(hash string) (*models.User, error) {
 		return nil, errors.New("token is not valid")
 	}
 
-	email, _ := result.(string)
+	uid, _ := result.(uint)
 
-	user := GetUser(email)
+	user := GetUser(uid)
 
 	return &user, nil
 }

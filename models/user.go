@@ -1,13 +1,14 @@
 package models
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
 type User struct {
-	Email     string    `json:"email" gorm:"primaryKey"`
-	Password  string    `json:"password"`
-	FullName  string    `json:"fullName" gorm:"column: full_name"`
-	CreatedAt time.Time `gorm:"autoCreateTime: true"`
-	UpdatedAt time.Time `gorm:"autoUpdateTime: true"`
+	gorm.Model
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	FullName string `json:"fullName" gorm:"column: full_name"`
 
 	Communities []*Community `gorm:"many2many:communities_users"`
 }
