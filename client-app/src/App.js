@@ -1,6 +1,6 @@
 import './App.css';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-
+import RegisterPage from "./views/Register"
 function App() {
   const router = createBrowserRouter([
     {
@@ -8,8 +8,8 @@ function App() {
       element: <div>Main page</div>
     },
     {
-      path: "/hello",
-      element: <div>hello page</div>
+      path: "/register",
+      element: <RegisterPage/>
     }
   ])
   return (
