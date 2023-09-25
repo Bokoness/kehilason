@@ -5,7 +5,8 @@ import (
 )
 
 func Setup(app *fiber.App) {
-	AuthRoutes(app)
-	CommunitiesRoutes(app)
-	AssignmentRoutes(app)
+	route := app.Group("/api")
+	AuthRoutes(route)
+	CommunitiesRoutes(route)
+	AssignmentRoutes(route)
 }
