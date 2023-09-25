@@ -16,9 +16,6 @@ export default function BasicTextFields() {
     return (
         <Box
             component="form"
-            sx={{
-                '& > :not(style)': { m: 1, width: '25ch' },
-            }}
             noValidate
             autoComplete="off"
         >
@@ -31,14 +28,14 @@ export default function BasicTextFields() {
                         onChange={e => setFullName(e.target.value)}
                     />
                 </Grid>
-               <Grid item xs={12}>
+                <Grid item xs={12}>
                     <TextField
                         label="Email"
                         variant="outlined"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                     />
-               </Grid>
+                </Grid>
 
                 <Grid item xs={12}>
                     <TextField
@@ -49,8 +46,8 @@ export default function BasicTextFields() {
                         onChange={e => setPassword(e.target.value)}
                     />
                 </Grid>
-            <Button onClick={handleRegister}>Sign up</Button>
             </Grid>
+            <Button onClick={handleRegister}>Sign up</Button>
         </Box>
     );
 }

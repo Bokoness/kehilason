@@ -1,22 +1,22 @@
 import './App.css';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import RegisterPage from "./views/Register"
+import {Container} from "@mui/material";
+
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <div>Main page</div>
-    },
-    {
-      path: "/register",
-      element: <RegisterPage/>
-    }
-  ])
-  return (
-    <div className="App">
-      <RouterProvider router={router}/>
-    </div>
-  );
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <RegisterPage/>
+        }
+    ])
+    return (
+        <div className="App">
+            <Container style={{paddingTop: 5}}>
+                <RouterProvider router={router}/>
+            </Container>
+        </div>
+    );
 }
 
 export default App;
