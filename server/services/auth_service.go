@@ -3,9 +3,10 @@ package services
 import (
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"time"
+
+	"github.com/gofiber/fiber/v2/log"
 
 	"github.com/bokoness/lashon/models"
 	"github.com/dgrijalva/jwt-go"
@@ -112,7 +113,7 @@ func InsertUserToSession(c *fiber.Ctx, user *models.User) *int {
 	sess.Set("user", user)
 
 	if err = sess.Save(); err != nil {
-		log.Fatal(fmt.Printf("this is the error %s", err))
+		log.Error(fmt.Printf("this is the error %s", err))
 		return &statusCodeError
 	}
 
