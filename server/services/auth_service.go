@@ -3,11 +3,13 @@ package services
 import (
 	"errors"
 	"fmt"
+	"log"
+	"os"
+	"time"
+
 	"github.com/bokoness/lashon/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
-	"os"
-	"time"
 )
 
 var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
@@ -99,4 +101,30 @@ func GetUserFromSession(c *fiber.Ctx) (*models.User, error) {
 	}
 
 	return user, nil
+}
+func InsertUserToSession(c *fiber.Ctx, user *models.User) int {
+	sess, err := GetStore(c)
+	statusCodeError := fiber.StatusInternalServerError
+	if err != nil {
+		return statusCodeError
+	}
+
+	sess.Set("user", user)
+
+	if err = sess.Save(); err != nil {
+		log.Fatal(fmt.Printf("this is the error %s", err))
+		return statusCodeError
+	}
+
+	return 0
+}
+func GetUserFromCookiesByJWT(c *fiber.Ctx) (*models.User, error) {
+	cookie := c.Cookies("user")
+
+	if cookie == "" {
+		return nil, fiber.NewError(fiber.StatusUnauthorized)
+	}
+
+	user, err := GetUserByJWT(cookie)
+	return user, err
 }
