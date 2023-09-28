@@ -14,8 +14,8 @@ func AuthMiddleware(c *fiber.Ctx) error {
 
 	// insert user to session
 	statusCodeError := services.InsertUserToSession(c, user)
-	if statusCodeError != 0 {
-		return fiber.NewError(statusCodeError)
+	if statusCodeError != nil {
+		return fiber.NewError(*statusCodeError)
 	}
 
 	if err != nil {

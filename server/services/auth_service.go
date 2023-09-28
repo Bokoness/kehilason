@@ -102,21 +102,21 @@ func GetUserFromSession(c *fiber.Ctx) (*models.User, error) {
 
 	return user, nil
 }
-func InsertUserToSession(c *fiber.Ctx, user *models.User) int {
+func InsertUserToSession(c *fiber.Ctx, user *models.User) *int {
 	sess, err := GetStore(c)
 	statusCodeError := fiber.StatusInternalServerError
 	if err != nil {
-		return statusCodeError
+		return &statusCodeError
 	}
 
 	sess.Set("user", user)
 
 	if err = sess.Save(); err != nil {
 		log.Fatal(fmt.Printf("this is the error %s", err))
-		return statusCodeError
+		return &statusCodeError
 	}
 
-	return 0
+	return nil
 }
 func GetUserFromCookiesByJWT(c *fiber.Ctx) (*models.User, error) {
 	cookie := c.Cookies("user")
