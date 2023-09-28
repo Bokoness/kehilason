@@ -1,2 +1,5 @@
 .env
 tmp/
+.idea/
+node_modules/
+compose.yaml
