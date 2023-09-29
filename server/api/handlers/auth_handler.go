@@ -5,6 +5,7 @@ import (
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -52,7 +53,6 @@ func LoginUser(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError)
 	}
-
 	cookie := new(fiber.Cookie)
 	cookie.Name = "user"
 	cookie.Value = jwt
@@ -60,4 +60,13 @@ func LoginUser(c *fiber.Ctx) error {
 	c.Cookie(cookie)
 
 	return c.JSON(found.Clean())
+}
+
+func CheckLogin(c *fiber.Ctx) error {
+	if user, err := services.GetUserFromSession(c); err != nil {
+		log.Error(err)
+		return fiber.NewError(fiber.StatusUnauthorized)
+	} else {
+		return c.JSON(user.Clean())
+	}
 }
