@@ -1,18 +1,38 @@
 package handlers
 
 import (
+	"errors"
 	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
+	"gorm.io/gorm"
 )
 
 func GetCommunities(c *fiber.Ctx) error {
-	return c.JSON(services.GetCommunities())
+	communities, err := services.GetCommunities()
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError)
+	}
+
+	return c.JSON(communities)
 }
 
 func GetCommunity(c *fiber.Ctx) error {
-	return c.JSON(services.GetCommunity(c.Params("id")))
+	community, err := services.GetCommunity(c.Params("id"))
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return fiber.NewError(fiber.StatusNotFound)
+		} else {
+			log.Error(err)
+			return fiber.NewError(fiber.StatusInternalServerError)
+		}
+	}
+
+	return c.JSON(community)
 }
 
 func CreateCommunity(c *fiber.Ctx) error {
@@ -22,11 +42,14 @@ func CreateCommunity(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	if found := services.GetCommunity(body.ID); found.ID != "" {
+	community, err := services.CreateCommunity(body)
+
+	if err != nil && services.IsDuplicatedKeyError(err) {
+		log.Error(err)
 		return fiber.NewError(fiber.StatusNotAcceptable, "Community ID already exists")
 	}
 
-	return c.JSON(services.CreateCommunity(body))
+	return c.JSON(community)
 }
 
 func UpdateCommunity(c *fiber.Ctx) error {
@@ -36,7 +59,13 @@ func UpdateCommunity(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(services.UpdateCommunity(c.Params("id"), body))
+	community, err := services.UpdateCommunity(c.Params("id"), body)
+
+	if err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
+		return fiber.NewError(fiber.StatusNotFound)
+	}
+
+	return c.JSON(community)
 }
 
 func DeleteCommunity(c *fiber.Ctx) error {
@@ -51,7 +80,9 @@ func RegisterUserToCommunity(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusUnauthorized)
 	}
 
-	services.RegisterUserToCommunity(user.ID, c.Params("id"))
+	if err = services.RegisterUserToCommunity(user.ID, c.Params("id")); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError)
+	}
 
 	return c.SendStatus(fiber.StatusOK)
 }
