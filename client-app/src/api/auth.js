@@ -2,7 +2,7 @@ import axios from "axios";
 export default class AuthApi {
   static async register(fullName, email, password) {
     try {
-      const { data } = await axios.post("/auth/register", {
+      const { data } = await axios.post("api/auth/register", {
         fullName,
         email,
         password,
@@ -15,7 +15,7 @@ export default class AuthApi {
 
   static async login(email, password) {
     try {
-      const { data } = await axios.post("/auth/login", { email, password });
+      const { data } = await axios.post("api/auth/login", { email, password });
       return data;
     } catch (e) {
       console.log(e);

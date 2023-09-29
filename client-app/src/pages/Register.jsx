@@ -19,6 +19,7 @@ export default function BasicTextFields() {
         <Grid item xs={12}>
           <TextField
             label="Full Name"
+            type="name"
             variant="outlined"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
