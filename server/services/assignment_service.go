@@ -3,34 +3,48 @@ package services
 import (
 	"github.com/bokoness/lashon/database"
 	"github.com/bokoness/lashon/models"
+	"github.com/gofiber/fiber/v2/log"
 )
 
-func GetAssignments(assignmentId string) []models.Assignment {
-	var assignments []models.Assignment
+func GetAssignments(assignmentId string) ([]*models.Assignment, error) {
+	var assignments []*models.Assignment
 
-	database.DB.Find(&assignments, "communityId = ?", assignmentId)
+	if err := database.DB.Find(&assignments, "community_id = ?", assignmentId).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
-	return assignments
+	return assignments, nil
 }
 
-func GetAssignment(id int) models.Assignment {
+func GetAssignment(id int) (*models.Assignment, error) {
 	var assignment models.Assignment
 
-	database.DB.First(&assignment, "id = ?", id)
+	if err := database.DB.First(&assignment, "id = ?", id).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
-	return assignment
+	return &assignment, nil
 }
 
-func CreateAssignment(data models.Assignment) models.Assignment {
-	database.DB.Create(&data)
+func CreateAssignment(data models.Assignment) (*models.Assignment, error) {
+	if err := database.DB.Create(&data).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
-	return data
+	return &data, nil
+
 }
 
-func UpdateAssignment(id int, data models.Assignment) models.Assignment {
+func UpdateAssignment(id int, data models.Assignment) (*models.Assignment, error) {
 	var result models.Assignment
 
-	database.DB.Where("id = ?", id).First(&result)
+	if err := database.DB.Where("id = ?", id).First(&result).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	result.Start = data.Start
 	result.End = data.End
@@ -39,7 +53,7 @@ func UpdateAssignment(id int, data models.Assignment) models.Assignment {
 
 	database.DB.Save(&result)
 
-	return result
+	return &result, nil
 }
 
 func DeleteAssignment(id int) {

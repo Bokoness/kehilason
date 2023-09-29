@@ -1,15 +1,24 @@
 package handlers
 
 import (
+	"errors"
 	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
+	"gorm.io/gorm"
 	"strconv"
 )
 
 func GetAssignments(c *fiber.Ctx) error {
-	return c.JSON(services.GetAssignments(c.Params("communityId")))
+	assignments, err := services.GetAssignments(c.Params("communityId"))
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError)
+	}
+
+	return c.JSON(assignments)
 }
 
 func GetAssignment(c *fiber.Ctx) error {
@@ -18,7 +27,18 @@ func GetAssignment(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "assignmentId is not valid")
 	}
 
-	return c.JSON(services.GetAssignment(id))
+	assignment, err := services.GetAssignment(id)
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return fiber.NewError(fiber.StatusNotFound)
+		} else {
+			log.Error(err)
+			return fiber.NewError(fiber.StatusInternalServerError)
+		}
+	}
+
+	return c.JSON(assignment)
 }
 
 func CreateAssignment(c *fiber.Ctx) error {
@@ -36,9 +56,16 @@ func CreateAssignment(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError)
 	}
 
-	body.UserID = user.Email
+	body.UserID = user.ID
 
-	return c.JSON(services.CreateAssignment(body))
+	assignment, err := services.CreateAssignment(body)
+
+	if err != nil && services.IsDuplicatedKeyError(err) {
+		log.Error(err)
+		return fiber.NewError(fiber.StatusNotAcceptable, "Assignment already exists")
+	}
+
+	return c.JSON(assignment)
 }
 
 func UpdateAssignment(c *fiber.Ctx) error {
@@ -52,7 +79,13 @@ func UpdateAssignment(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(services.UpdateAssignment(id, body))
+	assignment, err := services.UpdateAssignment(id, body)
+
+	if err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
+		return fiber.NewError(fiber.StatusNotFound)
+	}
+
+	return c.JSON(assignment)
 }
 
 func DeleteAssignment(c *fiber.Ctx) error {

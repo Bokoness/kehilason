@@ -7,8 +7,8 @@ import (
 
 type Assignment struct {
 	gorm.Model
-	CommunityID string `json:"community_id"`
-	UserID      string `json:"user_id"`
+	CommunityID string `json:"communityId" gorm:"column:community_id"`
+	UserID      uint   `json:"user_id"`
 	Start       time.Time
 	End         time.Time
 	StartHour   time.Time `json:"start_hour"`
