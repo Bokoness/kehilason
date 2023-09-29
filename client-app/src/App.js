@@ -10,6 +10,19 @@ import UnProtectedRout from "./components/UnProtectedRout.jsx";
 
 function App() {
   const [authorized, setAuthorized] = useState(false);
+  const [userId, setUserId] = useState();
+
+  useEffect(() => {
+    const authorization = async () => {
+      if (authorized) return;
+      const user = await auth.autorized();
+      if (user) {
+        setAuthorized(true);
+        setUserId(user._id);
+      }
+    };
+    authorization();
+  }, [authorized]);
 
   return (
     <div className="App">
