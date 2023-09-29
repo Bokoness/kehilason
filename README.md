@@ -1,4 +1,4 @@
-# Lashon
+# Kehilashon
 
 ### API documentation
 [Postman docs](https://documenter.getpostman.com/view/2906759/2s9YJXYQ9D)
