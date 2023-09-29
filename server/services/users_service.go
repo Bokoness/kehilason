@@ -4,23 +4,30 @@ import (
 	"errors"
 	"github.com/bokoness/lashon/database"
 	"github.com/bokoness/lashon/models"
+	"github.com/gofiber/fiber/v2/log"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func GetUser(uid uint) models.User {
+func GetUser(uid uint) (*models.User, error) {
 	var user models.User
 
-	database.DB.First(&user, uid)
+	if err := database.DB.First(&user, uid).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
-	return user
+	return &user, nil
 }
 
-func GetUserByEmail(email string) models.User {
+func GetUserByEmail(email string) (*models.User, error) {
 	var user models.User
 
-	database.DB.First(&user, "email = ?", email)
+	if err := database.DB.First(&user, "email = ?", email).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
-	return user
+	return &user, nil
 }
 
 func CreateUser(data models.User) (*models.User, error) {
@@ -33,7 +40,10 @@ func CreateUser(data models.User) (*models.User, error) {
 
 	data.Password = string(hash)
 
-	database.DB.Create(&data)
+	if err := database.DB.Create(&data).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	return &data, nil
 }

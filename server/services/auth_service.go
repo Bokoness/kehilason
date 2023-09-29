@@ -62,9 +62,13 @@ func GetUserByJWT(hash string) (*models.User, error) {
 		return nil, errors.New("token is not valid")
 	}
 
-	user := GetUser(uid)
+	user, err := GetUser(uid)
 
-	return &user, nil
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
 func SaveUserInSession(c *fiber.Ctx, user models.User) error {
