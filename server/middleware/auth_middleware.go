@@ -12,11 +12,7 @@ func AuthMiddleware(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
-	// insert user to session
-	statusCodeError := services.InsertUserToSession(c, user)
-	if statusCodeError != nil {
-		return fiber.NewError(*statusCodeError)
-	}
+	err := services.InsertUserToSession(c, user)
 
 	if err != nil {
 		return c.SendStatus(fiber.StatusUnauthorized)
