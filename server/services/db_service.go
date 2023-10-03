@@ -6,9 +6,12 @@ import (
 )
 
 func IsDuplicatedKeyError(err error) bool {
+	const DuplicatedErrorCode = 1062
 	var mysqlError *mysql.MySQLError
+
 	if errors.As(err, &mysqlError) {
-		return mysqlError.Number == 1062
+		return mysqlError.Number == DuplicatedErrorCode
 	}
+
 	return false
 }

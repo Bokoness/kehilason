@@ -60,9 +60,14 @@ func CreateAssignment(c *fiber.Ctx) error {
 
 	assignment, err := services.CreateAssignment(body)
 
-	if err != nil && services.IsDuplicatedKeyError(err) {
+	if err != nil {
 		log.Error(err)
-		return fiber.NewError(fiber.StatusNotAcceptable, "Assignment already exists")
+
+		if services.IsDuplicatedKeyError(err) {
+			return fiber.NewError(fiber.StatusNotAcceptable, "Assignment already exists")
+		}
+
+		return fiber.NewError(fiber.StatusInternalServerError)
 	}
 
 	return c.JSON(assignment)
@@ -81,8 +86,14 @@ func UpdateAssignment(c *fiber.Ctx) error {
 
 	assignment, err := services.UpdateAssignment(id, body)
 
-	if err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
-		return fiber.NewError(fiber.StatusNotFound)
+	if err != nil {
+		log.Error(err)
+
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return fiber.NewError(fiber.StatusNotFound)
+		}
+
+		return fiber.NewError(fiber.StatusInternalServerError)
 	}
 
 	return c.JSON(assignment)

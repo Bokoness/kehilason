@@ -24,12 +24,13 @@ func GetCommunity(c *fiber.Ctx) error {
 	community, err := services.GetCommunity(c.Params("id"))
 
 	if err != nil {
+		log.Error(err)
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return fiber.NewError(fiber.StatusNotFound)
-		} else {
-			log.Error(err)
-			return fiber.NewError(fiber.StatusInternalServerError)
 		}
+
+		return fiber.NewError(fiber.StatusInternalServerError)
+
 	}
 
 	return c.JSON(community)
@@ -44,9 +45,13 @@ func CreateCommunity(c *fiber.Ctx) error {
 
 	community, err := services.CreateCommunity(body)
 
-	if err != nil && services.IsDuplicatedKeyError(err) {
+	if err != nil {
 		log.Error(err)
-		return fiber.NewError(fiber.StatusNotAcceptable, "Community ID already exists")
+		if services.IsDuplicatedKeyError(err) {
+			return fiber.NewError(fiber.StatusNotAcceptable, "Community ID already exists")
+		}
+
+		return fiber.NewError(fiber.StatusInternalServerError)
 	}
 
 	return c.JSON(community)
