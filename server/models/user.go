@@ -11,10 +11,7 @@ type User struct {
 	Email    	string 	  `json:"email"`
 	Password    string    `json:"password"`
 	FullName    string    `json:"fullName" gorm:"column: full_name"`
-	IsSuperuser bool      `json:"isSuperuser" gorm:"is_superuser;default:false"`
-	CreatedAt   time.Time `gorm:"autoCreateTime: true"`
-	UpdatedAt   time.Time `gorm:"autoUpdateTime: true"`
-	
+	IsSuperuser bool      `json:"isSuperuser" gorm:""column: is_superuser; default: false"`
 
 	Communities []*Community `gorm:"many2many:communities_users"`
 }
