@@ -8,18 +8,14 @@ import (
 func SuperUserMiddleware(c *fiber.Ctx) error {
 	user, err := services.GetUserFromCookiesByJWT(c)
 	if err != nil || user == nil {
-		return err
+		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
 	if !user.IsSuperuser {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
-	// insert user to session
-	statusCodeError := services.InsertUserToSession(c, user)
-	if statusCodeError !=nil {
-		return fiber.NewError(*statusCodeError)
-	}
+	err := services.InsertUserToSession(c, user)
 
 	if err != nil {
 		return c.SendStatus(fiber.StatusUnauthorized)
