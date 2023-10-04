@@ -18,7 +18,7 @@ func SuperUserMiddleware(c *fiber.Ctx) error {
 	err = services.InsertUserToSession(c, user)
 
 	if err != nil {
-		return err
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 	return c.Next()
 }
