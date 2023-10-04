@@ -6,9 +6,10 @@ import (
 
 type User struct {
 	gorm.Model
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	FullName string `json:"fullName" gorm:"column: full_name"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	FullName    string `json:"fullName" gorm:"column:full_name"`
+	IsSuperuser bool   `json:"isSuperuser" gorm:""column:is_superuser;default:false"`
 
 	Communities []*Community `gorm:"many2many:communities_users"`
 }
