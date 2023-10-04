@@ -11,5 +11,6 @@ func AuthRoutes(app fiber.Router) {
 
 	route.Post("/register", handlers.RegisterUser)
 	route.Post("/login", handlers.LoginUser)
+	route.Post("/refresh-token", handlers.RefreshToken)
 	route.Get("/check-login", middleware.AuthMiddleware, handlers.CheckLogin)
 }

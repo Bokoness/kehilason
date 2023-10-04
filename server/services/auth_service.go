@@ -1,13 +1,18 @@
 package services
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"fmt"
+	"os"
+	"time"
+
+	"github.com/bokoness/lashon/database"
 	"github.com/bokoness/lashon/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
-	"os"
-	"time"
+	"github.com/gofiber/fiber/v2/log"
 )
 
 var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
@@ -99,4 +104,26 @@ func GetUserFromSession(c *fiber.Ctx) (*models.User, error) {
 	}
 
 	return user, nil
+}
+
+func GenerateRefreshToken(userID uint) (string, error) {
+	tokenBytes := make([]byte, 32)
+	if _, err := rand.Read(tokenBytes); err != nil {
+		return "", err
+	}
+	token := hex.EncodeToString(tokenBytes)
+
+	refreshToken := models.Sessions{
+		UserID:       uint(userID),
+		RefreshToken: token,
+		ExpiresAt:    time.Now().Add(time.Hour * 24 * 30), // Set your desired expiration time
+	}
+
+	if err := database.DB.Create(&refreshToken).Error; err != nil {
+		log.Error("Error saving refresh token", err)
+		return "", fiber.NewError(fiber.StatusInternalServerError)
+	}
+
+	return token, nil
+
 }

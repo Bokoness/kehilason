@@ -70,3 +70,18 @@ func CheckLogin(c *fiber.Ctx) error {
 		return c.JSON(user.Clean())
 	}
 }
+func RefreshToken(c *fiber.Ctx) error {
+	user, err := services.GetUserFromSession(c)
+	if err != nil {
+		log.Error(err)
+		return fiber.NewError(fiber.StatusUnauthorized)
+	}
+	userID := user.ID // Replace with your user ID logic
+	token, err := services.GenerateRefreshToken(userID)
+	if err != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"token": token,
+	})
+}
