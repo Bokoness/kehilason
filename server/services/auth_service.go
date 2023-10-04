@@ -107,14 +107,14 @@ func GetUserFromSession(c *fiber.Ctx) (*models.User, error) {
 func InsertUserToSession(c *fiber.Ctx, user *models.User) error {
 	sess, err := GetStore(c)
 	if err != nil {
-		log.Error(fmt.Printf("this is the error %s", err))
+		log.Errorf("this is the error %s", err)
 		return fiber.NewError(fiber.StatusInternalServerError)
 	}
 
 	sess.Set("user", user)
 
 	if err = sess.Save(); err != nil {
-		log.Error(fmt.Printf("this is the error %s", err))
+		log.Errorf("this is the error %s", err)
 		return fiber.NewError(fiber.StatusInternalServerError)
 	}
 
