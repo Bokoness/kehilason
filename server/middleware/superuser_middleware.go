@@ -15,10 +15,10 @@ func SuperUserMiddleware(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
-	err := services.InsertUserToSession(c, user)
+	err = services.InsertUserToSession(c, user)
 
 	if err != nil {
-		return c.SendStatus(fiber.StatusUnauthorized)
+		return err
 	}
 	return c.Next()
 }
