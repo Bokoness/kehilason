@@ -21,6 +21,7 @@ type CleanUser struct {
 	FullName string `json:"fullName"`
 }
 
+// BeforeCreate gorm hook that will hash the user's password before creation
 func (u *User) BeforeCreate() (err error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 
