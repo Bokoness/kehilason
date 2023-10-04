@@ -22,7 +22,6 @@ type CleanUser struct {
 }
 
 func (u *User) BeforeCreate() (err error) {
-
 	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 
 	if err != nil {
