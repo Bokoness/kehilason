@@ -125,7 +125,7 @@ func GetUserFromCookiesByJWT(c *fiber.Ctx) (*models.User, error) {
 	cookie := c.Cookies("user")
 
 	if cookie == "" {
-		return nil, fiber.NewError(fiber.StatusUnauthorized)
+		return nil, errors.New("user not in session")
 	}
 
 	user, err := GetUserByJWT(cookie)
