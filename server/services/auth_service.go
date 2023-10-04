@@ -103,6 +103,7 @@ func GetUserFromSession(c *fiber.Ctx) (*models.User, error) {
 
 	return user, nil
 }
+
 func InsertUserToSession(c *fiber.Ctx, user *models.User) error {
 	sess, err := GetStore(c)
 	if err != nil {
@@ -119,6 +120,7 @@ func InsertUserToSession(c *fiber.Ctx, user *models.User) error {
 
 	return nil
 }
+
 func GetUserFromCookiesByJWT(c *fiber.Ctx) (*models.User, error) {
 	cookie := c.Cookies("user")
 
