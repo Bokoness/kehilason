@@ -3,40 +3,53 @@ package services
 import (
 	"github.com/bokoness/lashon/database"
 	"github.com/bokoness/lashon/models"
+	"github.com/gofiber/fiber/v2/log"
 )
 
-func GetCommunities() []models.Community {
+func GetCommunities() (*[]models.Community, error) {
 	var communities []models.Community
 
-	database.DB.Find(&communities)
+	if err := database.DB.Find(&communities).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
-	return communities
+	return &communities, nil
 }
 
-func GetCommunity(id string) models.Community {
+func GetCommunity(id string) (*models.Community, error) {
 	var community models.Community
 
-	database.DB.First(&community, "id = ?", id)
+	if err := database.DB.First(&community, "id = ?", id).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
-	return community
+	return &community, nil
 }
 
-func CreateCommunity(data models.Community) models.Community {
-	database.DB.Create(&data)
+func CreateCommunity(data models.Community) (*models.Community, error) {
+	if err := database.DB.Create(&data).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
-	return data
+	return &data, nil
 }
 
-func UpdateCommunity(id string, data models.Community) models.Community {
+func UpdateCommunity(id string, data models.Community) (*models.Community, error) {
 	var result models.Community
 
-	database.DB.Where("id = ?", id).First(&result)
+	if err := database.DB.Where("id = ?", id).First(&result).Error; err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	result.Name = data.Name
 
 	database.DB.Save(&result)
 
-	return result
+	return &result, nil
 }
 
 func DeleteCommunity(id string) {
@@ -44,7 +57,7 @@ func DeleteCommunity(id string) {
 	database.DB.Unscoped().Delete(&record)
 }
 
-func RegisterUserToCommunity(userId uint, communityId string) {
+func RegisterUserToCommunity(userId uint, communityId string) error {
 	record := models.CommunitiesUsers{CommunityID: communityId, UserID: userId}
-	database.DB.Save(&record)
+	return database.DB.Save(&record).Error
 }

@@ -1,12 +1,14 @@
 package handlers
 
 import (
+	"errors"
 	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 func RegisterUser(c *fiber.Ctx) error {
@@ -16,7 +18,9 @@ func RegisterUser(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	if found := services.GetUserByEmail(body.Email); found.Email != "" {
+	_, err := services.GetUserByEmail(body.Email)
+
+	if err == nil || !errors.Is(err, gorm.ErrRecordNotFound) {
 		return fiber.NewError(fiber.StatusBadRequest, "email already exists")
 	}
 
@@ -36,13 +40,13 @@ func LoginUser(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	found := services.GetUserByEmail(body.Email)
+	found, err := services.GetUserByEmail(body.Email)
 
-	if found.Email == "" {
+	if err != nil {
 		return fiber.NewError(fiber.StatusUnauthorized)
 	}
 
-	err := bcrypt.CompareHashAndPassword([]byte(found.Password), []byte(body.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(found.Password), []byte(body.Password))
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusUnauthorized)
