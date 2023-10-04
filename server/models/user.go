@@ -1,17 +1,15 @@
 package models
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
 type User struct {
 	gorm.Model
-	Email    	string 	  `json:"email"`
-	Password    string    `json:"password"`
-	FullName    string    `json:"fullName" gorm:"column: full_name"`
-	IsSuperuser bool      `json:"isSuperuser" gorm:""column: is_superuser; default: false"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	FullName    string `json:"fullName" gorm:"column:full_name"`
+	IsSuperuser bool   `json:"isSuperuser" gorm:""column:is_superuser;default:false"`
 
 	Communities []*Community `gorm:"many2many:communities_users"`
 }
