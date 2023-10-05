@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+
 	"github.com/bokoness/lashon/database"
 	"github.com/bokoness/lashon/models"
 	"github.com/gofiber/fiber/v2/log"
@@ -46,4 +47,13 @@ func CreateUser(data models.User) (*models.User, error) {
 	}
 
 	return &data, nil
+}
+
+func UserIsInCommuinty(u *models.User, id string) bool {
+	for _, c := range u.Communities {
+		if c.ID == id {
+			return true
+		}
+	}
+	return false
 }
