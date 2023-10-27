@@ -21,7 +21,3 @@
     </VRow>
   </VAppBar>
 </template>
-
-<script setup>
-  //
-</script>
