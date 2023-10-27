@@ -51,7 +51,7 @@
 
     <section class="mt-10 bg-grey-darken-1">
       <VContainer>
-        <h2  class="text-h5">השאירו פרטים ונחזור אליכם</h2>
+        <h2 class="text-h5">השאירו פרטים ונחזור אליכם</h2>
 
         <VRow class="mt-5">
           <VCol>
