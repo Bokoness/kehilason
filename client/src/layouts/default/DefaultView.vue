@@ -1,9 +1,9 @@
 <template>
-  <v-main>
-    <router-view />
-  </v-main>
+  <VMain>
+    <RouterView/>
+  </VMain>
 </template>
 
 <script setup>
-  //
+//
 </script>
