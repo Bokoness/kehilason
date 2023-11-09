@@ -11,7 +11,7 @@
           <VCol>אודות</VCol>
           <VCol>צור קשר</VCol>
           <VCol>
-            <VBtn color="indigo">
+            <VBtn color="indigo" @click="openDialog">
               <VIcon>mdi-account</VIcon>
               <span>התחברו</span>
             </VBtn>
@@ -19,5 +19,25 @@
         </VRow>
       </VCol>
     </VRow>
+    <VDialog v-model="dialogModel" max-width="600" persistent>
+      <AuthDialog @close-dialog="closeDialog"/>
+    </VDialog>
   </VAppBar>
 </template>
+
+<script setup>
+import AuthDialog from "@/components/authentication/AuthDialog.vue"
+import { ref } from "vue"
+
+const dialogModel = ref(false)
+
+const openDialog = () => {
+  dialogModel.value = true
+}
+
+const closeDialog = () => {
+  dialogModel.value = false
+}
+</script>
+
+

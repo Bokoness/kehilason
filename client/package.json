@@ -10,12 +10,17 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
+    "axios": "^1.6.0",
+    "connect": "^3.7.0",
     "core-js": "^3.29.0",
+    "dotenv": "^16.3.1",
+    "http-proxy-middleware": "^2.0.6",
     "pinia": "^2.0.0",
     "roboto-fontface": "*",
     "vue": "^3.2.0",
     "vue-router": "^4.0.0",
-    "vuetify": "^3.0.0"
+    "vuetify": "^3.0.0",
+    "yup": "^1.3.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
