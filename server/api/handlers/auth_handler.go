@@ -43,7 +43,7 @@ func LoginUser(c *fiber.Ctx) error {
 	found, err := services.GetUserByEmail(body.Email)
 
 	if err != nil {
-		return fiber.NewError(fiber.StatusUnauthorized)
+		return fiber.NewError(fiber.StatusUnauthorized, "פרטים לא נכונים")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(found.Password), []byte(body.Password))

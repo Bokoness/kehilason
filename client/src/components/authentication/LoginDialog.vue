@@ -1,18 +1,17 @@
 <template>
   <VForm ref="form">
-    <VTextField bg-color="white" label="אימייל" type="email" v-bind="email"
+    <VTextField bg-color="white" label="אימייל" type="email" v-model="email"
                 :rules="[validation.required,validation.email]"/>
-    <VTextField bg-color="white" label="סיסמה" type="password" v-bind="password"
+    <VTextField bg-color="white" label="סיסמה" type="password" v-model="password"
                 :rules="[validation.required,validation.password]"/>
 
     <VSelect
-      v-bind="community"
+      v-model="community"
       :items="communities"
       item-title="name"
       item-value="id"
       label="קהילה"
       persistent-hint
-      return-object
       single-line
       :rules="[validation.community]"
     />
@@ -39,7 +38,7 @@ let form = ref(null)
 
 async function submit() {
   if (form.value.validate()) {
-    await login(email.value, password.value)
+    await login(email.value, password.value, community.value)
   }
 }
 

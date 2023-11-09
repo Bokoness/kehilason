@@ -1,10 +1,7 @@
-import axios from "axios"
-
-const api = axios.create({
-  baseURL: "/api/communities"
-})
+import api from "@/api/axios"
 
 export const getCommunities = async () => {
-  const { data } = await api.get("/")
+  const { data } = await api.get("/communities")
+
   return data
 }
