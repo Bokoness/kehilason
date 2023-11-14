@@ -2,8 +2,13 @@
   <VForm ref="form">
     <VTextField bg-color="white" label="אימייל" type="email" v-model="email"
                 :rules="[validation.required,validation.email]"/>
-    <VTextField bg-color="white" label="סיסמה" type="password" v-model="password"
-                :rules="[validation.required,validation.password]"/>
+
+    <VTextField bg-color="white" label="סיסמה" v-model="password"
+                :rules="[validation.required,validation.password]"
+                :append-icon="displayPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="displayPassword ? 'text': 'password'"
+                @click:append="displayPassword = !displayPassword"
+    />
 
     <VSelect
       v-model="community"
@@ -36,8 +41,12 @@ let community = ref("")
 let communities = ref([])
 let form = ref(null)
 
+let displayPassword = ref(false)
+
 async function submit() {
-  if (form.value.validate()) {
+  const validation = await form.value.validate()
+
+  if (validation.valid) {
     await login(email.value, password.value, community.value)
   }
 }
