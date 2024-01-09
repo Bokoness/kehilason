@@ -11,10 +11,12 @@
           <VCol>אודות</VCol>
           <VCol>צור קשר</VCol>
           <VCol>
-            <VBtn color="indigo">
-              <VIcon>mdi-account</VIcon>
-              <span>התחברו</span>
-            </VBtn>
+            <router-link to="/login">
+              <VBtn color="indigo">
+                <VIcon>mdi-account</VIcon>
+                <span>התחברו</span>
+              </VBtn>
+            </router-link>
           </VCol>
         </VRow>
       </VCol>
