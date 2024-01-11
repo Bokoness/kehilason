@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+. "$(dirname -- "$0")/_/husky.sh"
+
+staged_files=$(git diff --name-only --staged)
+
+for file in $staged_files; do
+  if echo "$file" | grep -q "server"; then
+    echo "server is not shold be formatted"
+  else
+    echo "Changed file: $file"
+    npx prettier "./$file" --write
+    git add "$file"
+  fi
+
+done

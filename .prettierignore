@@ -1,0 +1,14 @@
+build
+package-lock.json
+**/*pre-commit
+.prettierignore
+.gitignore
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+**/*.json
+.husky/**
+*.json
+.vscode
+server
