@@ -18,8 +18,9 @@ type User struct {
 }
 
 type CleanUser struct {
-	Email    string `json:"email"`
-	FullName string `json:"fullName"`
+	Email       string `json:"email"`
+	FullName    string `json:"fullName"`
+	IsSuperuser bool   `json:"isSuperuser"`
 }
 
 // BeforeCreate gorm hook that will hash the user's password before creation
@@ -37,7 +38,8 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 
 func (u User) Clean() CleanUser {
 	return CleanUser{
-		Email:    u.Email,
-		FullName: u.FullName,
+		Email:       u.Email,
+		FullName:    u.FullName,
+		IsSuperuser: u.IsSuperuser,
 	}
 }
