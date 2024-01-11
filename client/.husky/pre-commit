@@ -8,7 +8,7 @@ for file in $staged_files; do
   if echo "$file" | grep -q "server"; then
     echo "server is not shold be formatted"
   else
-    echo "Changed file: $file"
+    # echo "Changed file: $file"
     npx prettier "./$file" --write
     git add "$file"
   fi
