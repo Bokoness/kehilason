@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -22,7 +23,7 @@ type CleanUser struct {
 }
 
 // BeforeCreate gorm hook that will hash the user's password before creation
-func (u *User) BeforeCreate() (err error) {
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 
 	if err != nil {
