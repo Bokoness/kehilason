@@ -31,6 +31,7 @@ func main() {
 		AllowOriginsFunc: func(origin string) bool {
 			return os.Getenv("ENVIRONMENT") == "development"
 		},
+		AllowCredentials: true,
 	}))
 	routes.Setup(app)
 
