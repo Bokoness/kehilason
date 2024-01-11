@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+
 	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
@@ -12,19 +13,22 @@ import (
 )
 
 func RegisterUser(c *fiber.Ctx) error {
-	var body models.User
+	userModel := new(models.User)
 
-	if err := services.ValidateRequestBody(c, new(dto.CreateUser), &body); err != nil {
+	if err := c.BodyParser(userModel); err != nil {
+		return err
+	}
+	if err := services.ValidateRequestBody(c, new(dto.CreateUser), &userModel); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	_, err := services.GetUserByEmail(body.Email)
+	_, err := services.GetUserByEmail(userModel.Email)
 
 	if err == nil || !errors.Is(err, gorm.ErrRecordNotFound) {
 		return fiber.NewError(fiber.StatusBadRequest, "email already exists")
 	}
 
-	user, err := services.CreateUser(body)
+	user, err := services.CreateUser(*userModel)
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest)
