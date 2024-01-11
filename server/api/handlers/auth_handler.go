@@ -38,19 +38,21 @@ func RegisterUser(c *fiber.Ctx) error {
 }
 
 func LoginUser(c *fiber.Ctx) error {
-	var body models.User
-
-	if err := services.ValidateRequestBody(c, new(dto.LoginUser), &body); err != nil {
+	userModel := new(models.User)
+	if err := c.BodyParser(userModel); err != nil {
+		return err
+	}
+	if err := services.ValidateRequestBody(c, new(dto.LoginUser), &userModel); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	found, err := services.GetUserByEmail(body.Email)
+	found, err := services.GetUserByEmail(userModel.Email)
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusUnauthorized)
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(found.Password), []byte(body.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(found.Password), []byte(userModel.Password))
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusUnauthorized)
