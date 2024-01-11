@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"time"
 
 	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
@@ -66,6 +67,7 @@ func LoginUser(c *fiber.Ctx) error {
 	cookie := new(fiber.Cookie)
 	cookie.Name = "user"
 	cookie.Value = jwt
+	cookie.Expires = time.Now().Add(time.Hour * 24)
 
 	c.Cookie(cookie)
 
