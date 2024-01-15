@@ -6,19 +6,19 @@
       </VCol>
 
       <VCol lg="4" md="5 " cols="7">
-        <VRow align="center">
-          <VCol>קהילות</VCol>
-          <VCol>אודות</VCol>
-          <VCol>צור קשר</VCol>
-          <VCol>
-            <router-link to="/login">
-              <VBtn color="indigo">
-                <VIcon>mdi-account</VIcon>
-                <span>התחברו</span>
-              </VBtn>
-            </router-link>
-          </VCol>
-        </VRow>
+       <VRow align="center">
+         <VCol>קהילות</VCol>
+         <VCol>אודות</VCol>
+         <VCol>צור קשר</VCol>
+         <VCol>
+           <router-link to="/login">
+             <VBtn color="indigo">
+               <VIcon>mdi-account</VIcon>
+               <span>התחברו</span>
+             </VBtn>
+           </router-link>
+         </VCol>
+       </VRow>
       </VCol>
     </VRow>
   </VAppBar>
