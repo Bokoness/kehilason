@@ -4,10 +4,8 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import ViteFonts from 'unplugin-fonts/vite'
 
 // Utilities
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
-
-const env = loadEnv('production', process.cwd())
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,7 +31,7 @@ export default defineConfig({
       },
     }),
   ],
-  define: { 'process.env': env },
+  define: { 'process.env': {} },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

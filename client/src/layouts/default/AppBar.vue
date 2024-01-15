@@ -2,7 +2,7 @@
   <VAppBar flat color="secondaryBG" class="pl-15">
     <VRow align="center" justify="space-between" class="px-3">
       <VCol cols="3">
-        <VImg src="@/assets/logoWithBlackWords.png" max-height="80" max-width="=250" />
+        <VImg src="@/assets/logo.png" max-height="80" max-width="=250" />
       </VCol>
 
       <VCol lg="4" md="5 " cols="7">
