@@ -3,15 +3,17 @@ package main
 import (
 	"encoding/gob"
 	"fmt"
+	"log"
+	"os"
+
 	"github.com/bokoness/lashon/database"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/routes"
 	"github.com/bokoness/lashon/services"
 	"github.com/joho/godotenv"
-	"log"
-	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
@@ -23,6 +25,14 @@ func main() {
 	database.InitDb()
 
 	app := fiber.New()
+
+	// Initialize cors config
+	app.Use(cors.New(cors.Config{
+		AllowOriginsFunc: func(origin string) bool {
+			return os.Getenv("GO_ENV") == "development"
+		},
+		AllowCredentials: true,
+	}))
 
 	routes.Setup(app)
 

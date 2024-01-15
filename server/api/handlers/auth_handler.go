@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"errors"
+	"time"
+
 	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
@@ -12,19 +14,22 @@ import (
 )
 
 func RegisterUser(c *fiber.Ctx) error {
-	var body models.User
+	userModel := new(models.User)
 
-	if err := services.ValidateRequestBody(c, new(dto.CreateUser), &body); err != nil {
+	if err := c.BodyParser(userModel); err != nil {
+		return err
+	}
+	if err := services.ValidateRequestBody(c, new(dto.CreateUser), &userModel); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	_, err := services.GetUserByEmail(body.Email)
+	_, err := services.GetUserByEmail(userModel.Email)
 
 	if err == nil || !errors.Is(err, gorm.ErrRecordNotFound) {
 		return fiber.NewError(fiber.StatusBadRequest, "email already exists")
 	}
 
-	user, err := services.CreateUser(body)
+	user, err := services.CreateUser(*userModel)
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest)
@@ -34,19 +39,21 @@ func RegisterUser(c *fiber.Ctx) error {
 }
 
 func LoginUser(c *fiber.Ctx) error {
-	var body models.User
-
-	if err := services.ValidateRequestBody(c, new(dto.LoginUser), &body); err != nil {
+	userModel := new(models.User)
+	if err := c.BodyParser(userModel); err != nil {
+		return err
+	}
+	if err := services.ValidateRequestBody(c, new(dto.LoginUser), &userModel); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	found, err := services.GetUserByEmail(body.Email)
+	found, err := services.GetUserByEmail(userModel.Email)
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusUnauthorized)
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(found.Password), []byte(body.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(found.Password), []byte(userModel.Password))
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusUnauthorized)
@@ -60,6 +67,7 @@ func LoginUser(c *fiber.Ctx) error {
 	cookie := new(fiber.Cookie)
 	cookie.Name = "user"
 	cookie.Value = jwt
+	cookie.Expires = time.Now().Add(time.Hour * 24)
 
 	c.Cookie(cookie)
 

@@ -12,9 +12,20 @@ import { createApp } from 'vue'
 
 // Plugins
 import { registerPlugins } from '@/plugins'
+import { useAuthStore } from './store/auth'
 
-const app = createApp(App)
+const createVueApp = async () => {
+  const app = createApp(App)
 
-registerPlugins(app)
+  registerPlugins(app)
 
-app.mount('#app')
+  try {
+    const { checkLogin } = useAuthStore()
+    await checkLogin()
+  } catch (error) {
+    console.log(error)
+  }
+
+  app.mount('#app')
+}
+createVueApp()
