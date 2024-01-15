@@ -26,13 +26,14 @@ func main() {
 
 	app := fiber.New()
 
-	// Initialize default config
+	// Initialize cors config
 	app.Use(cors.New(cors.Config{
 		AllowOriginsFunc: func(origin string) bool {
-			return os.Getenv("ENVIRONMENT") == "development"
+			return os.Getenv("GO_ENV") == "development"
 		},
 		AllowCredentials: true,
 	}))
+
 	routes.Setup(app)
 
 	gob.Register(&models.User{})

@@ -9,7 +9,7 @@ import vuetify from './vuetify'
 import pinia from '../store'
 import router from '../router'
 
-export async function registerPlugins(app) {
+export function registerPlugins (app) {
   app
     .use(vuetify)
     .use(router)
