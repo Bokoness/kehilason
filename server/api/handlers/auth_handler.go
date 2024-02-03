@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+
 	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
@@ -57,6 +58,7 @@ func LoginUser(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError)
 	}
+
 	cookie := new(fiber.Cookie)
 	cookie.Name = "user"
 	cookie.Value = jwt
