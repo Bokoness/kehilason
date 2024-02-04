@@ -30,6 +30,7 @@ export const useAuthStore = defineStore('auth', {
         this.loginSuccess(data)
       } catch (e) {
         errorHandler(e, `${this.$id}: register`)
+        throw new Error (e.message)
       }
     },
     async login(payload) {
@@ -38,6 +39,7 @@ export const useAuthStore = defineStore('auth', {
         this.loginSuccess(data)
       } catch (e) {
         errorHandler(e, `${this.$id}: login`)
+        throw new Error (e.message)
       }
     },
     async checkLogin() {
