@@ -125,7 +125,7 @@ export default {
           await login(this.form)
         }
 
-        this.$router.push({ name: 'Dashboard' })
+        this.$router.push({ name: 'Home' })
       } catch (e) {
         console.log(e)
       } finally {
