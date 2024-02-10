@@ -68,7 +68,7 @@ func LoginUser(c *fiber.Ctx) error {
 	return c.JSON(found.Clean())
 }
 
-func CheckLogin(c *fiber.Ctx) error {
+func CheckAuth(c *fiber.Ctx) error {
 	if user, err := services.GetUserFromSession(c); err != nil {
 		log.Error(err)
 		return fiber.NewError(fiber.StatusUnauthorized)
