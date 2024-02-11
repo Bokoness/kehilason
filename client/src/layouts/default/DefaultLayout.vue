@@ -1,8 +1,8 @@
 <template>
   <VApp>
-    <DefaultBar/>
+    <DefaultBar />
 
-    <DefaultView/>
+    <DefaultView />
   </VApp>
 </template>
 

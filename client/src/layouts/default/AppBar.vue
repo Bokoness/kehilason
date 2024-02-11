@@ -29,7 +29,7 @@
 import AuthDialog from "@/components/authentication/AuthDialog.vue"
 import { ref } from "vue"
 import { useAuthStore } from "@/store/auth"
-import { onMounted } from "vue";
+import { onMounted } from "vue"
 
 const auth = useAuthStore()
 
@@ -49,5 +49,3 @@ const closeDialog = () => {
   dialogModel.value = false
 }
 </script>
-
-

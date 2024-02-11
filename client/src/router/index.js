@@ -1,6 +1,6 @@
 // Composables
-import { createRouter, createWebHistory } from "vue-router";
-import { useAuthStore } from "@/store/auth";
+import { createRouter, createWebHistory } from "vue-router"
+import { useAuthStore } from "@/store/auth"
 
 const routes = [
   {
@@ -27,22 +27,22 @@ const routes = [
     path: "/dashboard",
     component: () => import("@/layouts/dashboard/DashboardLayout.vue"),
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-});
+})
 
 router.beforeEach(async (to, from, next) => {
-  const store = useAuthStore();
+  const store = useAuthStore()
 
-  const isAuthenticated = await store.isAuthenticated();
+  const isAuthenticated = await store.isAuthenticated()
 
-  if (to.name === "Home" && isAuthenticated) next({ name: "Dashboard" });
+  if (to.name === "Home" && isAuthenticated) next({ name: "Dashboard" })
 
-  if (to.name !== "Home" && !isAuthenticated) next({ name: "Home" });
-  else next();
-});
+  if (to.name !== "Home" && !isAuthenticated) next({ name: "Home" })
+  else next()
+})
 
-export default router;
+export default router

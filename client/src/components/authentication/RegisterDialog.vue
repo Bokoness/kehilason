@@ -1,17 +1,29 @@
 <template>
   <VForm ref="form">
-    <VTextField bg-color="white" label="אימייל" type="email" v-model="email"
-                :rules="[validation.required,validation.email]"/>
-
-    <VTextField bg-color="white" label="סיסמה" v-model="password"
-                :rules="[validation.required,validation.password]"
-                :append-icon="displayPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="displayPassword ? 'text': 'password'"
-                @click:append="displayPassword = !displayPassword"
+    <VTextField
+      bg-color="white"
+      label="אימייל"
+      type="email"
+      v-model="email"
+      :rules="[validation.required, validation.email]"
     />
 
+    <VTextField
+      bg-color="white"
+      label="סיסמה"
+      v-model="password"
+      :rules="[validation.required, validation.password]"
+      :append-icon="displayPassword ? 'mdi-eye' : 'mdi-eye-off'"
+      :type="displayPassword ? 'text' : 'password'"
+      @click:append="displayPassword = !displayPassword"
+    />
 
-    <VTextField v-model="fullName" bg-color="white" label="שם מלא" :rules="[validation.required]"/>
+    <VTextField
+      v-model="fullName"
+      bg-color="white"
+      label="שם מלא"
+      :rules="[validation.required]"
+    />
 
     <VSelect
       v-model="community"
@@ -25,7 +37,7 @@
     />
 
     <div class="d-flex justify-center">
-      <VBtn text="הרשמה" flat @click="submit"/>
+      <VBtn text="הרשמה" flat @click="submit" />
     </div>
   </VForm>
 </template>
@@ -56,8 +68,5 @@ async function submit() {
 onMounted(async () => {
   communities.value = await getCommunities()
 })
-
-</script>>
-
-
-
+</script>
+>

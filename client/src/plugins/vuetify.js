@@ -13,8 +13,8 @@ import { createVuetify } from "vuetify"
 
 export default createVuetify({
   locale: {
-    locale:"he",
-    direction: "rtl"
+    locale: "he",
+    direction: "rtl",
   },
   theme: {
     themes: {
@@ -22,7 +22,7 @@ export default createVuetify({
         colors: {
           primary: "#1867C0",
           secondary: "#5CBBF6",
-          secondaryBG: "#F8F9FB"
+          secondaryBG: "#F8F9FB",
         },
       },
     },

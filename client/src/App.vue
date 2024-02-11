@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RouterView/>
+    <RouterView />
     <VSnackbar v-model="snackbar" color="red">{{ errorMessage }}</VSnackbar>
   </div>
 </template>
@@ -12,7 +12,7 @@ import eventBus from "@/eventBus"
 const errorMessage = ref("")
 const snackbar = ref(false)
 
-eventBus.on("axios-error", message => {
+eventBus.on("axios-error", (message) => {
   errorMessage.value = message
   snackbar.value = true
 })

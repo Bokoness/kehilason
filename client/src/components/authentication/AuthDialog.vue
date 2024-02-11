@@ -11,17 +11,19 @@
     <VCardText>
       <VWindow v-model="currentTab">
         <VWindowItem value="login">
-          <LoginDialog/>
+          <LoginDialog />
         </VWindowItem>
 
         <VWindowItem value="register">
-          <RegisterDialog/>
+          <RegisterDialog />
         </VWindowItem>
       </VWindow>
     </VCardText>
 
     <VCardActions class="d-flex justify-center">
-      <section v-if="currentTab==='register'" @click="toggleTab">רשומים? התחברו עכשיו</section>
+      <section v-if="currentTab === 'register'" @click="toggleTab">
+        רשומים? התחברו עכשיו
+      </section>
       <section v-else @click="toggleTab">עוד לא רשומים? הרשמו עכשיו</section>
     </VCardActions>
   </VCard>

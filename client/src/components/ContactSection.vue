@@ -2,8 +2,10 @@
   <div>
     <VContainer>
       <h1 class="text-h4 d-flex justify-center">מעניין אתכם? צרו קשר</h1>
-      <h3 align="center" class="text-h6">הרע או לשון הרע לאו הוא האוסרים מרכילות לעבירה ולפגוע, להבדיל אמירה כל בני הרע
-        שיסודה איסור או או שדיברו.</h3>
+      <h3 align="center" class="text-h6">
+        הרע או לשון הרע לאו הוא האוסרים מרכילות לעבירה ולפגוע, להבדיל אמירה כל
+        בני הרע שיסודה איסור או או שדיברו.
+      </h3>
       <VRow class="mt-5">
         <VCol md="4" cols="12">
           <VCard>
@@ -59,19 +61,19 @@
 
         <VRow class="mt-5">
           <VCol md="3" cols="12">
-            <VTextField label="שם מלא (חובה)" bg-color="white"/>
+            <VTextField label="שם מלא (חובה)" bg-color="white" />
           </VCol>
 
           <VCol md="3" cols="12">
-            <VTextField label="נייד (חובה)" bg-color="white"/>
+            <VTextField label="נייד (חובה)" bg-color="white" />
           </VCol>
 
           <VCol md="3" cols="12">
-            <VTextField label="מייל (חובה)" bg-color="white"/>
+            <VTextField label="מייל (חובה)" bg-color="white" />
           </VCol>
 
           <VCol md="3" cols="12">
-            <VTextField label="תוכן הפניה (חובה)" bg-color="white"/>
+            <VTextField label="תוכן הפניה (חובה)" bg-color="white" />
           </VCol>
         </VRow>
 

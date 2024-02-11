@@ -2,7 +2,7 @@ import axios from "axios"
 import eventBus from "@/eventBus"
 
 const api = axios.create({
-  baseURL: "/api"
+  baseURL: "/api",
 })
 
 api.interceptors.response.use(null, function (error) {
@@ -15,4 +15,3 @@ api.interceptors.response.use(null, function (error) {
 })
 
 export default api
-
