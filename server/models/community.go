@@ -1,8 +1,9 @@
 package models
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Community struct {
@@ -14,9 +15,9 @@ type Community struct {
 }
 
 type CommunitiesUsers struct {
+	CreatedAt   time.Time `gorm:"autoCreateTime: true"`
+	UpdatedAt   time.Time `gorm:"autoUpdateTime: true"`
 	CommunityID string    `json:"communityId" gorm:"primaryKey"`
 	UserID      uint      `json:"userId" gorm:"primaryKey"`
 	Role        int       `json:"role" gorm:"default: 2"`
-	CreatedAt   time.Time `gorm:"autoCreateTime: true"`
-	UpdatedAt   time.Time `gorm:"autoUpdateTime: true"`
 }

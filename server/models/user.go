@@ -9,12 +9,11 @@ import (
 
 type User struct {
 	gorm.Model
-	Email       string `json:"email"`
-	Password    string `json:"password"`
-	FullName    string `json:"fullName" gorm:"column:full_name"`
-	IsSuperuser bool   `json:"isSuperuser" gorm:"column:is_superuser;default:false"`
-
+	Email       string       `json:"email"`
+	Password    string       `json:"password"`
+	FullName    string       `json:"fullName" gorm:"column:full_name"`
 	Communities []*Community `gorm:"many2many:communities_users"`
+	IsSuperuser bool         `json:"isSuperuser" gorm:"column:is_superuser;default:false"`
 }
 
 type CleanUser struct {
@@ -25,7 +24,6 @@ type CleanUser struct {
 // BeforeCreate gorm hook that will hash the user's password before creation
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
-
 	if err != nil {
 		return errors.New("password hashing failed")
 	}
