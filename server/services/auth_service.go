@@ -8,7 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2/log"
 
-	"github.com/bokoness/lashon/models"
+	"github.com/bokoness/kehilashon/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )

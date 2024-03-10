@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"github.com/bokoness/lashon/api/handlers"
-	"github.com/bokoness/lashon/middleware"
+	"github.com/bokoness/kehilashon/api/handlers"
+	"github.com/bokoness/kehilashon/middleware"
 	"github.com/gofiber/fiber/v2"
 )
 

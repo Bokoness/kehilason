@@ -3,9 +3,9 @@ package handlers
 import (
 	"errors"
 
-	"github.com/bokoness/lashon/dto"
-	"github.com/bokoness/lashon/models"
-	"github.com/bokoness/lashon/services"
+	"github.com/bokoness/kehilashon/dto"
+	"github.com/bokoness/kehilashon/models"
+	"github.com/bokoness/kehilashon/services"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 	"gorm.io/gorm"

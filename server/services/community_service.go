@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/bokoness/lashon/database"
-	"github.com/bokoness/lashon/models"
+	"github.com/bokoness/kehilashon/database"
+	"github.com/bokoness/kehilashon/models"
 	"github.com/gofiber/fiber/v2/log"
 )
 

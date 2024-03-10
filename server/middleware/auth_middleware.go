@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/bokoness/lashon/services"
+	"github.com/bokoness/kehilashon/services"
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -2,7 +2,7 @@ package database
 
 import (
 	"fmt"
-	"github.com/bokoness/lashon/models"
+	"github.com/bokoness/kehilashon/models"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"

@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/gob"
 	"fmt"
-	"github.com/bokoness/lashon/database"
-	"github.com/bokoness/lashon/models"
-	"github.com/bokoness/lashon/routes"
-	"github.com/bokoness/lashon/services"
-	"github.com/joho/godotenv"
 	"log"
 	"os"
+
+	"github.com/bokoness/kehilashon/database"
+	"github.com/bokoness/kehilashon/models"
+	"github.com/bokoness/kehilashon/routes"
+	"github.com/bokoness/kehilashon/services"
+	"github.com/joho/godotenv"
 
 	"github.com/gofiber/fiber/v2"
 )

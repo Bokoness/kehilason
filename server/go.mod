@@ -1,4 +1,4 @@
-module github.com/bokoness/lashon
+module github.com/bokoness/kehilashon
 
 go 1.21
 
