@@ -36,11 +36,14 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue"
+import { onMounted, ref, defineEmits } from "vue"
 import { getCommunities } from "@/api/communityApi"
 import validation from "@/validationRules"
 import { useAuthStore } from "@/store/auth"
+import { useRouter } from "vue-router"
+import eventBus from "@/eventBus"
 
+const router = useRouter()
 const auth = useAuthStore()
 
 let email = ref("")
@@ -51,17 +54,22 @@ let form = ref(null)
 
 let displayPassword = ref(false)
 
+const emit = defineEmits(["closeDialog"])
+
 async function submit() {
   const validation = await form.value.validate()
 
   if (validation.valid) {
-    try {
-      await auth.loginUser(email.value, password.value, community.value)
-      this.$router.push({ name: "home" })
-    } catch (error) {
-      console.error(error)
-      //todo : do something with the error
-    }
+    await auth.loginUser(email.value, password.value, community.value)
+
+    eventBus.emit("snackbar", {
+      message: "ההתחברות בוצעה בהצלחה",
+      color: "green",
+    })
+
+    router.push({ name: "Dashboard" })
+
+    emit("closeDialog")
   }
 }
 

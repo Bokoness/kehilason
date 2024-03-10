@@ -10,18 +10,12 @@
           <VCol>קהילות</VCol>
           <VCol>אודות</VCol>
           <VCol>צור קשר</VCol>
-          <VCol v-if="!isAuthenticated">
-            <VBtn color="indigo" @click="openDialog">
-              <VIcon>mdi-account</VIcon>
-              <span>התחברו</span>
-            </VBtn>
+          <VCol v-if="!auth.user">
+            <AuthDialog />
           </VCol>
         </VRow>
       </VCol>
     </VRow>
-    <VDialog v-model="dialogModel" max-width="600" persistent>
-      <AuthDialog @close-dialog="closeDialog" />
-    </VDialog>
   </VAppBar>
 </template>
 
@@ -33,19 +27,9 @@ import { onMounted } from "vue"
 
 const auth = useAuthStore()
 
-const dialogModel = ref(false)
-
 const isAuthenticated = ref(false)
 
 onMounted(async () => {
   isAuthenticated.value = await auth.isAuthenticated()
 })
-
-const openDialog = () => {
-  dialogModel.value = true
-}
-
-const closeDialog = () => {
-  dialogModel.value = false
-}
 </script>
