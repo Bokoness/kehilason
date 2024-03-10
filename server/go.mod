@@ -5,6 +5,7 @@ go 1.21
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-playground/validator/v10 v10.15.4
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gofiber/fiber/v2 v2.49.1
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.13.0
@@ -26,7 +27,6 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/gofiber/storage v1.3.3 // indirect
 	github.com/gohugoio/hugo v0.118.2 // indirect
 	github.com/google/uuid v1.3.1 // indirect
