@@ -15,7 +15,7 @@
         </VWindowItem>
 
         <VWindowItem value="register">
-          <RegisterDialog />
+          <RegisterDialog @goLogin="toggleTab" />
         </VWindowItem>
       </VWindow>
     </VCardText>

@@ -43,10 +43,12 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue"
+import { onMounted, ref, defineEmits } from "vue"
 import { register } from "@/api/authApi"
 import { getCommunities } from "@/api/communityApi"
 import validation from "@/validationRules"
+
+import eventBus from "@/eventBus"
 
 let fullName = ref("")
 let email = ref("")
@@ -57,11 +59,20 @@ let form = ref(null)
 
 let displayPassword = ref(false)
 
+const emit = defineEmits(["goLogin"])
+
 async function submit() {
   const validation = await form.value.validate()
 
   if (validation.valid) {
     await register(fullName.value, email.value, password.value, community.value)
+
+    eventBus.emit("snackbar", {
+      message: "ההרשמה בוצעה בהצלחה",
+      color: "green",
+    })
+
+    emit("goLogin")
   }
 }
 

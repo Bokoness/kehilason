@@ -7,8 +7,7 @@ const api = axios.create({
 
 api.interceptors.response.use(null, function (error) {
   if (error.response) {
-    console.log(error.response)
-    eventBus.emit("axios-error", error.response?.data || "בעיה כללית")
+    eventBus.emit("error", error.response?.data || "בעיה כללית")
   }
 
   return Promise.reject(error)
