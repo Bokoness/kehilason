@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+
 	"github.com/bokoness/lashon/dto"
 	"github.com/bokoness/lashon/models"
 	"github.com/bokoness/lashon/services"
@@ -12,7 +13,6 @@ import (
 
 func GetCommunities(c *fiber.Ctx) error {
 	communities, err := services.GetCommunities()
-
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError)
 	}
@@ -22,9 +22,9 @@ func GetCommunities(c *fiber.Ctx) error {
 
 func GetCommunity(c *fiber.Ctx) error {
 	community, err := services.GetCommunity(c.Params("id"))
-
 	if err != nil {
 		log.Error(err)
+
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return fiber.NewError(fiber.StatusNotFound)
 		}
@@ -44,9 +44,9 @@ func CreateCommunity(c *fiber.Ctx) error {
 	}
 
 	community, err := services.CreateCommunity(body)
-
 	if err != nil {
 		log.Error(err)
+
 		if services.IsDuplicatedKeyError(err) {
 			return fiber.NewError(fiber.StatusNotAcceptable, "Community ID already exists")
 		}

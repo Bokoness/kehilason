@@ -26,7 +26,6 @@ func RegisterUser(c *fiber.Ctx) error {
 	}
 
 	user, err := services.CreateUser(body)
-
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest)
 	}
@@ -42,19 +41,16 @@ func LoginUser(c *fiber.Ctx) error {
 	}
 
 	found, err := services.GetUserByEmail(body.Email)
-
 	if err != nil {
 		return fiber.NewError(fiber.StatusUnauthorized, "פרטים לא נכונים")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(found.Password), []byte(body.Password))
-
 	if err != nil {
 		return fiber.NewError(fiber.StatusUnauthorized)
 	}
 
 	jwt, err := services.GenerateAuthJWT(found.ID)
-
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError)
 	}
@@ -71,6 +67,7 @@ func LoginUser(c *fiber.Ctx) error {
 func CheckAuth(c *fiber.Ctx) error {
 	if user, err := services.GetUserFromSession(c); err != nil {
 		log.Error(err)
+
 		return fiber.NewError(fiber.StatusUnauthorized)
 	} else {
 		return c.JSON(user.Clean())
