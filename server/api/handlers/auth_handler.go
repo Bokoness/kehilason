@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"time"
 
 	"github.com/bokoness/kehilashon/dto"
 	"github.com/bokoness/kehilashon/models"
@@ -62,6 +63,19 @@ func LoginUser(c *fiber.Ctx) error {
 	c.Cookie(cookie)
 
 	return c.JSON(found.Clean())
+}
+
+func LogoutUser(c *fiber.Ctx) error {
+	// clear cookie
+	c.Cookie(&fiber.Cookie{
+		Name: "user",
+		// Set expiry date to the past
+		Expires:  time.Now().Add(-(time.Hour * 2)),
+		HTTPOnly: true,
+		SameSite: "lax",
+	})
+
+	return nil
 }
 
 func CheckAuth(c *fiber.Ctx) error {

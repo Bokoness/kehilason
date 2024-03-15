@@ -10,8 +10,9 @@
           <VCol>קהילות</VCol>
           <VCol>אודות</VCol>
           <VCol>צור קשר</VCol>
-          <VCol v-if="!auth.user">
-            <AuthDialog />
+          <VCol>
+            <AuthDialog v-if="!auth.user" />
+            <VBtn v-else text color="red" @click="logout"> התנתקות </VBtn>
           </VCol>
         </VRow>
       </VCol>
@@ -24,12 +25,20 @@ import AuthDialog from "@/components/authentication/AuthDialog.vue"
 import { ref } from "vue"
 import { useAuthStore } from "@/store/auth"
 import { onMounted } from "vue"
+import { useRouter } from "vue-router"
 
 const auth = useAuthStore()
+const router = useRouter()
 
 const isAuthenticated = ref(false)
 
 onMounted(async () => {
   isAuthenticated.value = await auth.isAuthenticated()
 })
+
+const logout = async () => {
+  await auth.logoutUser()
+
+  router.push({ name: "Home" })
+}
 </script>

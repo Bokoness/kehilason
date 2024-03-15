@@ -1,4 +1,4 @@
-import { login, checkAuth } from "@/api/authApi"
+import { login, logout, checkAuth } from "@/api/authApi"
 import { defineStore } from "pinia"
 
 export const useAuthStore = defineStore("auth", {
@@ -8,6 +8,12 @@ export const useAuthStore = defineStore("auth", {
       const user = await login(email, password, community)
 
       this.user = user
+    },
+
+    async logoutUser() {
+      await logout()
+
+      this.user = undefined
     },
 
     async isAuthenticated() {
